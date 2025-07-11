@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mapa de Calidad del Aire - Zonas</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 90vh; width: 100%; }
+  </style>
+</head>
+<body>
+  <h3>🗺️ Mapa de Calidad del Aire – Puno</h3>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([-15.85, -70.02], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const zonas = [
+      { nombre: "Parque Pino", lat: -15.8412, lon: -70.0211, valor: 2800 },
+      { nombre: "Bellavista", lat: -15.8501, lon: -70.0059, valor: 2600 },
+      { nombre: "Zona Puerto", lat: -15.8617, lon: -70.0100, valor: 3700 }
+    ];
+
+    function getColor(valor) {
+      if (valor < 2800) return "green";
+      else if (valor < 3200) return "orange";
+      else return "red";
+    }
+
+    zonas.forEach(z => {
+      const color = getColor(z.valor);
+      const circle = L.circle([z.lat, z.lon], {
+        radius: 250,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.4
+      }).addTo(map);
+      circle.bindPopup(`<b>${z.nombre}</b><br>Valor: ${z.valor}<br>Estado: ${color.toUpperCase()}`);
+    });
+  </script>
+</body>
+</html>
