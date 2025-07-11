@@ -20,30 +20,26 @@
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // === Datos de tus mediciones ===
     const zonas = [
       { nombre: "Parque Pino", lat: -15.8412, lon: -70.0211, valor: 2800 },
       { nombre: "Bellavista", lat: -15.8501, lon: -70.0059, valor: 2600 },
       { nombre: "Zona Puerto", lat: -15.8617, lon: -70.0100, valor: 3700 }
     ];
 
-    // === Función para asignar color según el valor MQ-135 ===
     function getColor(valor) {
-      if (valor < 2800) return "green";       // Excelente
-      else if (valor < 3200) return "orange"; // Aceptable
-      else return "red";                      // Peligroso
+      if (valor < 2800) return "green";
+      else if (valor < 3200) return "orange";
+      else return "red";
     }
 
-    // === Mostrar cada zona con círculo de 500 m de diámetro ===
     zonas.forEach(z => {
       const color = getColor(z.valor);
       const circle = L.circle([z.lat, z.lon], {
-        radius: 250,          // 250 m de radio = 500 m de diámetro
+        radius: 250,
         color: color,
         fillColor: color,
         fillOpacity: 0.4
       }).addTo(map);
-
       circle.bindPopup(`<b>${z.nombre}</b><br>Valor: ${z.valor}<br>Estado: ${color.toUpperCase()}`);
     });
   </script>
